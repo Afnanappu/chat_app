@@ -49,7 +49,7 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: AppColor.backgroundDark,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColor.primaryDark,
+      backgroundColor: AppColor.backgroundDark,
       foregroundColor: Colors.white,
       elevation: 0,
       titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

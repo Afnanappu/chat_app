@@ -1,3 +1,4 @@
+import 'package:chat_app/core/theme/app_color.dart';
 import 'package:chat_app/feature/home/models/chat_model.dart';
 import 'package:chat_app/feature/home/view/components/chat_tile.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +10,33 @@ class ScreenHome extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: demoChats.length,
-        itemBuilder: (context, index) {
-          final chat = demoChats[index];
-          final isVisible = index == 1 || index == 3;
-          return Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: ChatTile(chat: chat, isVisible: isVisible),
-          );
-        },
+      appBar: AppBar(title: Text('WhatsApp')),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: SearchBar(
+              hintText: 'Search...',
+              hintStyle: WidgetStateTextStyle.resolveWith(
+                (_) => TextStyle(color: AppColor.textPrimaryGrey),
+              ),
+              leading: Icon(Icons.search, color: AppColor.textPrimaryGrey),
+            ),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: demoChats.length,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final chat = demoChats[index];
+              final isVisible = index == 1 || index == 3;
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: ChatTile(chat: chat, isVisible: isVisible, onTap: () {}),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
