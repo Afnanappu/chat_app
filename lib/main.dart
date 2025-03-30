@@ -1,6 +1,13 @@
+import 'package:chat_app/feature/home/view/screens/screen_home.dart';
+import 'package:chat_app/routes/route_names.dart';
+import 'package:chat_app/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
 
@@ -9,12 +16,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      home: const ScreenHome(),
+
+      initialRoute: AppRoutes.home,
+      routes: routes,
     );
   }
 }
