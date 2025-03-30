@@ -1,4 +1,4 @@
-import 'package:chat_app/feature/home/view/screens/screen_home.dart';
+import 'package:chat_app/core/theme/app_theme.dart';
 import 'package:chat_app/routes/route_names.dart';
 import 'package:chat_app/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +17,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const ScreenHome(),
-
+      debugShowCheckedModeBanner: false,
+      darkTheme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
       initialRoute: AppRoutes.home,
       routes: routes,
     );
