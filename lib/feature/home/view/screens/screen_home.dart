@@ -1,6 +1,7 @@
-import 'package:chat_app/core/theme/app_color.dart';
 import 'package:chat_app/feature/home/models/chat_model.dart';
 import 'package:chat_app/feature/home/view/components/chat_tile.dart';
+import 'package:chat_app/feature/home/view/widgets/search_bar_for_home.dart';
+import 'package:chat_app/feature/home/view/widgets/show_exit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,34 +10,38 @@ class ScreenHome extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(title: Text('WhatsApp')),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SearchBar(
-              hintText: 'Search...',
-              hintStyle: WidgetStateTextStyle.resolveWith(
-                (_) => TextStyle(color: AppColor.textPrimaryGrey),
-              ),
-              leading: Icon(Icons.search, color: AppColor.textPrimaryGrey),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        final canPop = await showExitDialog(context);
+        if (canPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text('WhatsApp')),
+        body: ListView(
+          children: [
+            SearchBarForHome(),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: demoChats.length,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final chat = demoChats[index];
+                final isVisible = index == 1 || index == 3;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: ChatTile(
+                    chat: chat,
+                    isVisible: isVisible,
+                    onTap: () {},
+                  ),
+                );
+              },
             ),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: demoChats.length,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final chat = demoChats[index];
-              final isVisible = index == 1 || index == 3;
-              return Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: ChatTile(chat: chat, isVisible: isVisible, onTap: () {}),
-              );
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
