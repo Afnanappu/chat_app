@@ -22,8 +22,7 @@ jobs:
           java-version: '17'
       - uses: subosito/flutter-action@v2 # This will allow flutter command to run on the system
         with: # With this options
-          #flutter-version: "3.29.x" # Specify a flutter version
-          flutter-version-file: pubspec.yaml # path to pubspec.yaml
+          flutter-version: "3.29.x" # Specify a flutter version
           channel: stable
           cache: true
         
