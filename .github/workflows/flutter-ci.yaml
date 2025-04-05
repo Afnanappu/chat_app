@@ -12,7 +12,7 @@ on: # This is the starting point of the work flow and in which event the automat
     
 jobs:
   flutter_test: # Name of this Job
-    name: Run flutter analysis # Name of this step
+    name: Run flutter test and analysis # Name of this step
     runs-on: ubuntu-latest # In which system we are going to do the automation like ubuntu, mac, widows etc.
     steps: # This is the steps of work that going to run of this system
       - uses: actions/checkout@v4 # This step is to clone this project to the virtual machine to run the automation
@@ -30,6 +30,30 @@ jobs:
       - run: flutter pub get # Get all dependencies
       - run: flutter analyze # Analyze the code
       - run: flutter test # This line can be added if you had a flutter test
+
+
+##############################
+  build_apk:
+    name: Build flutter apk
+    needs: [flutter_test]
+    runs-on: ubuntu-latest
+    steps: # This is the steps of work that going to run of this system
+      - uses: actions/checkout@v4 # This step is to clone this project to the virtual machine to run the automation
+      - uses: actions/setup-java@v4 # Setting up java for this system environment
+        with: # With this options
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: subosito/flutter-action@v2 # This will allow flutter command to run on the system
+        with: # With this options
+          flutter-version: "3.29.x" # Specify a flutter version
+          channel: stable
+          cache: true
+        
+        # Now the flutter command that need to run in the system
+      - run: flutter clean # This line can be added if you had a flutter test
+      - run: flutter pub get # Get all dependencies
+      - run: flutter build apk # Build the apk
+
         
                 
 
