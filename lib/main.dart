@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:chat_app/core/dependencies.dart';
 import 'package:chat_app/core/theme/app_theme.dart';
+import 'package:chat_app/feature/auth/view_model/auth_provider.dart';
+import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/routes/route_names.dart';
 import 'package:chat_app/routes/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'firebase_options.dart';
+// import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,36 +30,42 @@ void main() async {
     FlutterError.presentError(details);
   };
 
-  FirebaseAuth.instance.userChanges().listen((user) {
-    if (user == null) {
-      debugPrint('User is currently signed out!');
-    } else {
-      debugPrint('User is signed in!');
-    }
-  });
+  // FirebaseAuth.instance.userChanges().listen((user) {
+  //   if (user == null) {
+  //     debugPrint('User is currently signed out!');
+  //   } else {
+  //     debugPrint('User is signed in!');
+  //   }
+  // });
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  setupDependencies(); // Initialize dependencies
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ); // Initialize Firebase
   runApp(ProviderScope(child: const MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
     //   while (true) {
-    //     await Future.delayed(Duration(seconds: 5), () {
+    //     await Future.delayed(Duration(seconds: 30), () {
     //       printMemoryUsage();
     //     });
     //   }
     // });
+    final authState = ref.watch(authProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WhatsApp Clone',
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.auth,
+      initialRoute:
+          authState.isAlreadySignIn() ? AppRoutes.home : AppRoutes.auth,
       routes: routes,
     );
   }

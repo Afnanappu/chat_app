@@ -3,9 +3,10 @@ import 'package:chat_app/feature/auth/models/user_app_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthService {
+class AuthFirebaseService extends AuthService {
   final _auth = FirebaseAuth.instance;
 
+  @override
   Future<void> signIn(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
@@ -14,7 +15,13 @@ class AuthService {
     }
   }
 
-  Future<void> signUp(String username, String email, String password) async {
+  @override
+  Future<void> signUp(
+    String username,
+    String email,
+    String password,
+    String? profileImage,
+  ) async {
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -29,7 +36,7 @@ class AuthService {
         uid: userCredential.user!.uid,
         username: username,
         email: email,
-        profileImage: null,
+        profileImage: profileImage,
       );
 
       await FirebaseFirestore.instance
@@ -41,7 +48,20 @@ class AuthService {
     }
   }
 
+  @override
   Future<void> signOut() async {
     await _auth.signOut();
   }
+}
+
+abstract class AuthService {
+  Future<void> signIn(String email, String password);
+
+  Future<void> signUp(
+    String username,
+    String email,
+    String password,
+    String? profileImage,
+  );
+  Future<void> signOut();
 }

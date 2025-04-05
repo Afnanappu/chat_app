@@ -1,7 +1,9 @@
+import 'package:chat_app/feature/auth/view_model/auth_provider.dart';
 import 'package:chat_app/feature/home/models/chat_model.dart';
 import 'package:chat_app/feature/home/view/components/chat_tile.dart';
 import 'package:chat_app/feature/home/view/widgets/search_bar_for_home.dart';
 import 'package:chat_app/feature/home/view/widgets/show_exit_dialog.dart';
+import 'package:chat_app/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +21,24 @@ class ScreenHome extends ConsumerWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: Text('WhatsApp')),
+        appBar: AppBar(
+          title: Text('WhatsApp'),
+          actions: [
+            OutlinedButton.icon(
+              onPressed: () {
+                ref.read(authProvider).signOut().then((_) {
+                  if (context.mounted) {
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil(AppRoutes.auth, (_) => false);
+                  }
+                });
+              },
+              label: Text('Logout'),
+              icon: Icon(Icons.logout),
+            ),
+          ],
+        ),
         body: ListView(
           children: [
             SearchBarForHome(),

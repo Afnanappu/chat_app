@@ -1,3 +1,4 @@
+import 'package:chat_app/core/constants.dart';
 import 'package:chat_app/core/theme/app_color.dart';
 import 'package:chat_app/core/utils/date_time_format.dart';
 import 'package:chat_app/feature/home/models/chat_model.dart';
@@ -21,7 +22,7 @@ class ChatTile extends StatelessWidget {
       onTap: onTap,
       contentPadding: EdgeInsets.symmetric(horizontal: 10),
       leading: CircleAvatar(
-        foregroundImage: AssetImage('assets/icons/person.png'),
+        foregroundImage: AssetImage(defaultUserProfile),
 
         radius: 30,
       ),
