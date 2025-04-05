@@ -4,7 +4,7 @@ on: # This is the starting point of the work flow and in which event the automat
   push: # Run the jobs when some code is pushed to the given branches
     branches: # Specify the branches that trigger the automation
       - "main" # In my case its main but can be master or any other
-  
+
   # pull_request: # This code can be added if you want to trigger the automation in pull request as well
   #   branches: 
   #     - "main"
@@ -29,7 +29,7 @@ jobs:
         # Now the flutter command that need to run in the system
       - run: flutter pub get # Get all dependencies
       - run: flutter analyze # Analyze the code
-      # - run: flutter test # This line can be added if you had a flutter test
+      - run: flutter test # This line can be added if you had a flutter test
         
                 
 
