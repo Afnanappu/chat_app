@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest # In which system we are going to do the automation like ubuntu, mac, widows etc.
     steps: # This is the steps of work that going to run of this system
       - uses: actions/checkout@v4 # This step is to clone this project to the virtual machine to run the automation
-      - uses: actions/setup-java@v3 # Setting up java for this system environment
+      - uses: actions/setup-java@v4 # Setting up java for this system environment
         with: # With this options
-          java-version: "12.x"
-          cache: "gradle"
+          distribution: 'zulu'
+          java-version: '17'
       - uses: subosito/flutter-action@v2 # This will allow flutter command to run on the system
         with: # With this options
           #flutter-version: "3.29.x" # Specify a flutter version
