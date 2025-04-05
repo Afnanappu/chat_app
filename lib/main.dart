@@ -66,7 +66,7 @@ class MainApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       initialRoute:
           authState.isAlreadySignIn() ? AppRoutes.home : AppRoutes.auth,
-      routes: routes,
+      routes: route,
     );
   }
 }
