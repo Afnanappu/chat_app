@@ -54,6 +54,13 @@ jobs:
       - run: flutter pub get # Get all dependencies
       - run: flutter build apk # Build the apk
 
+       # Optional: Upload APK as artifact
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
         
                 
 
